@@ -10,11 +10,13 @@ namespace Blackjack.Models
     {
         public string face;
         public string suit;
+        public int value;
 
-        public Card(string cardFace, string cardSuit)
+        public Card(string cardFace, string cardSuit, int cardValue)
         {
             face = cardFace;
             suit = cardSuit;
+            value = cardValue;
         }
 
         public Card()
@@ -31,7 +33,56 @@ namespace Blackjack.Models
 
         public string CardValue()
         {
-            return face + suit;
+            return face + suit + value;
+        }
+
+        // La till mellanrum så alla ord är 8 mellanslag långa
+        public int ConvertCardToInt(string face)
+        {
+            int value = 0;
+
+            if (face == "Ace     ")
+            {
+                value = 1;
+            }
+            else if (face == "Two     ")
+            {
+                value = 2;
+            }
+            else if (face == "Three   ")
+            {
+                value = 3;
+            }
+            else if (face == "Four    ")
+            {
+                value = 4;
+            }
+            else if (face == "Five    ")
+            {
+                value = 5;
+            }
+            else if (face == "Six     ")
+            {
+                value = 6;
+            }
+            else if (face == "Seven   ")
+            {
+                value = 7;
+            }
+            else if (face == "Eight   ")
+            {
+                value = 8;
+            }
+            else if (face == "Nine    ")
+            {
+                value = 9;
+            }
+            else if (face == "Ten     " || face == "Jack    " || face == "Queen   " || face == "King    ")
+            {
+                value = 10;
+            }
+
+            return value;
         }
     }
 }

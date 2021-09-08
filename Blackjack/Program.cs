@@ -6,16 +6,29 @@ namespace Blackjack
     {
         static void Main(string[] args)
         {
-            var menu = new Views.Menu();
-            var card = new Views.CardDisplay();
-            var deck = new Models.Deck();
-            deck.Shuffle();
+            var game = new Controllers.GameController();
+            game.Game();
 
-            var testcard = deck.DealCard();
 
-            var newFace = card.ConvertCardToInt(testcard.face);
+            /*
 
-            card.PrintCard(testcard.suit, newFace, testcard.face);
+            for (int i = 0; i < 52; i++)
+            {
+                //Console.Write("{0,-19}", deck.DealCard());
+                var dealCard = deck.DealCard();
+                card.PrintCard(dealCard.suit, dealCard.value, dealCard.face);
+
+                if ((i + 1) % 4 == 0)
+                    Console.WriteLine();
+            }
+            Console.ReadLine();
+
+            */
+
+
+            //var testcard = deck.DealCard();
+
+            //card.PrintCard(testcard.suit, testcard.value, testcard.face);
 
             //menu.Intro();
             //card.PrintCard(suit, value);

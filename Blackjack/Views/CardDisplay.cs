@@ -19,6 +19,8 @@ namespace Blackjack.Views
             Console.WriteLine(" " + face);
         }
 
+
+
         public void PrintCardBack()
         {
             Console.WriteLine(" _____");
@@ -27,7 +29,7 @@ namespace Blackjack.Views
             Console.WriteLine("|<><><|");
             Console.WriteLine("|_____|");
         }
-
+        /*
         public int ConvertCardToInt(string face)
         {
             int value = 0;
@@ -75,5 +77,6 @@ namespace Blackjack.Views
 
             return value;
         }
+        */
     }
 }
