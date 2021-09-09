@@ -43,7 +43,7 @@ namespace Blackjack.Models
 
             if (face == "Ace     ")
             {
-                value = 1;
+                value = 11;
             }
             else if (face == "Two     ")
             {

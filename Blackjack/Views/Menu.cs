@@ -125,15 +125,17 @@ namespace Blackjack.Views
 
         public void OneCardPlayer(string suit, int faceValue, string face)
         {
+            int value = faceValue;
+            var menuController = new Controllers.MenuController();
+            string spacingValue = menuController.IsDoubleDigit(value);
             Console.Write(
 $@"|                                                                                                                                                              |
 |                         _____                                                                                                                                |
 |                        |    {suit}|                                                                                                                               |
 |                        ");
-            if (faceValue >= 10) { Console.WriteLine("|  " + faceValue + " |                                                                                                                               |"); }
-            else { Console.WriteLine("|  " + faceValue + "  |                                                                                                                               |"); }
+            Console.WriteLine("|  " + faceValue + spacingValue + " |                                                                                                                               |");
             Console.WriteLine(
-$@"|                        |     |                                                                                                                               |
+$@"|     Value: {value}" + spacingValue + $@"          |     |                                                                                                                               |
 |                        |_____|                                                                                                                               |
 |                        {face}                                                                                                                              |
 |                                                                                                                                                              |
@@ -141,8 +143,35 @@ $@"|                        |     |                                             
 ");
         }
 
+        public void TwoCardPlayer(string suit1, int faceValue1, string face1, string suit2, int faceValue2, string face2)
+        {
+            int value = faceValue1 + faceValue2;
+            var menuController = new Controllers.MenuController();
+            string spacingValue = menuController.IsDoubleDigit(value);
+            string spacingCardOne = menuController.IsDoubleDigit(faceValue1);
+            string spacingCardTwo = menuController.IsDoubleDigit(faceValue2);
+
+            Console.Write(
+$@"|                                                                                                                                                              |
+|                         _____    _____                                                                                                                       |
+|                        |    {suit1}|  |    {suit2}|                                        (H) Hit                                                                       |
+|                        ");
+           Console.Write("|  " + faceValue1 + spacingCardOne + " |");
+           Console.WriteLine("  |  " + faceValue2 + spacingCardTwo + " |                                                                                                                      |");
+           Console.Write(
+$@"|     Value: {value}" + spacingValue + $@"          |     |  |     |                                        (S) Stand                                                                     |
+|                        |_____|  |_____|                                                                                                                      |
+|                         {face1} {face2}                                      (D) Double                                                                    |
+|                                                                                                                                                              |
+|______________________________________________________________________________________________________________________________________________________________|
+");
+        }
+
         public void OneCardDealer(string suit, int faceValue, string face)
         {
+            int value = faceValue;
+            var menuController = new Controllers.MenuController();
+            string spacingValue = menuController.IsDoubleDigit(value);
             Console.Clear();
             Console.Write(
 $@" ______________________________________________________________________________________________________________________________________________________________
@@ -157,12 +186,96 @@ $@" ____________________________________________________________________________
 |                         _____                                                                                                                                |
 |                        |    {suit}|                                                                                                                               |
 |                        ");
-            if (faceValue >= 10) { Console.WriteLine("|  " + faceValue + " |                                                                                                                               |"); }
-            else { Console.WriteLine("|  " + faceValue + "  |                                                                                                                               |"); }
+            Console.WriteLine("|  " + faceValue + spacingValue + " |                                                                                                                               |");
             Console.Write(
-$@"|                        |     |                                                                                                                               |
+$@"|     Value: {value}" + spacingValue + $@"          |     |                                                                                                                               |
 |                        |_____|                                                                                                                               |
-|                        {face}                                                                                                                              |
+|                         {face}                                                                                                                             |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|______________________________________________________________________________________________________________________________________________________________|
+");
+        }
+
+        public void OneCardDealerFaceDown(string suit, int faceValue, string face)
+        {
+            int value = faceValue;
+            var menuController = new Controllers.MenuController();
+            string spacingValue = menuController.IsDoubleDigit(value);
+            Console.Clear();
+            Console.Write(
+$@" ______________________________________________________________________________________________________________________________________________________________
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                         _____    _____                                                                                                                       |
+|                        |    {suit}|  |<><><|                                                                                                                      |
+|                        ");
+            Console.WriteLine("|  " + faceValue + spacingValue + " |  |><><>|                                                                                                                      |");
+            Console.Write(
+$@"|     Value: {value}" + spacingValue + $@"          |     |  |<><><|                                                                                                                      |
+|                        |_____|  |_____|                                                                                                                      |
+|                         {face}                                                                                                                             |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|______________________________________________________________________________________________________________________________________________________________|
+");
+        }
+
+        public void TwoCardDealer(string suit1, int faceValue1, string face1, string suit2, int faceValue2, string face2)
+        {
+            int value = faceValue1 + faceValue2;
+            var menuController = new Controllers.MenuController();
+            string spacingValue = menuController.IsDoubleDigit(value);
+            string spacingCardOne = menuController.IsDoubleDigit(faceValue1);
+            string spacingCardTwo = menuController.IsDoubleDigit(faceValue2);
+            Console.Clear();
+            Console.Write(
+$@" ______________________________________________________________________________________________________________________________________________________________
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                         _____    _____                                                                                                                       |
+|                        |    {suit1}|  |    {suit2}|                                                                                                                      |
+|                        ");
+            Console.Write("|  " + faceValue1 + spacingCardOne + " |");
+            Console.WriteLine("  |  " + faceValue2 + spacingCardTwo + " |                                                                                                                      |");
+            Console.Write(
+$@"|     Value: {value}" + spacingValue + $@"          |     |  |     |                                                                                                                      |
+|                        |_____|  |_____|                                                                                                                      |
+|                         {face1} {face2}                                                                                                                    |
 |                                                                                                                                                              |
 |                                                                                                                                                              |
 |                                                                                                                                                              |
