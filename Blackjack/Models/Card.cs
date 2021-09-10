@@ -10,6 +10,7 @@ namespace Blackjack.Models
     {
         public string face;
         public string suit;
+        public string royal;
         public int value;
 
         public Card(string cardFace, string cardSuit, int cardValue)

@@ -14,3 +14,11 @@ C:\Users\nisse\source\repos\Blackjack\Blackjack\obj\Debug\net5.0\Blackjack.dll
 C:\Users\nisse\source\repos\Blackjack\Blackjack\obj\Debug\net5.0\ref\Blackjack.dll
 C:\Users\nisse\source\repos\Blackjack\Blackjack\obj\Debug\net5.0\Blackjack.pdb
 C:\Users\nisse\source\repos\Blackjack\Blackjack\obj\Debug\net5.0\Blackjack.genruntimeconfig.cache
+C:\Users\nisse\source\repos\Blackjack\Blackjack\bin\Debug\net5.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\nisse\source\repos\Blackjack\Blackjack\bin\Debug\net5.0\System.Drawing.Common.dll
+C:\Users\nisse\source\repos\Blackjack\Blackjack\bin\Debug\net5.0\System.Windows.Extensions.dll
+C:\Users\nisse\source\repos\Blackjack\Blackjack\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\nisse\source\repos\Blackjack\Blackjack\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\nisse\source\repos\Blackjack\Blackjack\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\nisse\source\repos\Blackjack\Blackjack\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+C:\Users\nisse\source\repos\Blackjack\Blackjack\obj\Debug\net5.0\Blackjack.csproj.CopyComplete

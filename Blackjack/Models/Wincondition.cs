@@ -18,11 +18,21 @@ namespace Blackjack.Models
         {
             bool blackjack = false;
 
-            if(card1.face == "Ace     " && card2.face == "Ace     " || card1.face == "Ace     " && card2.value == 10)
+            if(card1.face == "Ace     " && card2.face == "Ace     " || card1.face == "Ace     " && card2.value == 10 || card2.face == "Ace     " && card1.value == 10)
             {
                 blackjack = true;
             }
             return blackjack;
+        }
+
+        public bool CheckValueDealer(int value)
+        {
+            bool hit = false;
+            if (value < 17)
+            {
+                hit = true;
+            }
+            return hit;
         }
     }
 }
