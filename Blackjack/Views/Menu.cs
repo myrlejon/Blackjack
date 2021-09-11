@@ -198,13 +198,12 @@ $@"|     Value: {value}" + spacingValue + $@"          |     |                  
 ");
         }
 
-        public int TwoCardPlayer(string suit1, int faceValue1, string face1, string suit2, int faceValue2, string face2)
+        public int TwoCardPlayer(string suit1, int faceValue1, string face1,
+            string suit2, int faceValue2, string face2)
         {
             int value = faceValue1 + faceValue2;
             var menuController = new Controllers.MenuController();
             string spacingValue = menuController.IsDoubleDigit(value);
-            string spacingCardOne = menuController.IsDoubleDigit(faceValue1);
-            string spacingCardTwo = menuController.IsDoubleDigit(faceValue2);
 
             string faceDisplayOne = menuController.CardDisplay(face1);
             string faceDisplayTwo = menuController.CardDisplay(face2);
@@ -226,14 +225,13 @@ $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |         
             return value;
         }
 
-        public void ThreeCardPlayer(string suit1, int faceValue1, string face1, string suit2, int faceValue2, string face2, string suit3, int faceValue3, string face3)
+        public int ThreeCardPlayer(string suit1, int faceValue1, string face1,
+            string suit2, int faceValue2, string face2,
+            string suit3, int faceValue3, string face3)
         {
             int value = faceValue1 + faceValue2 + faceValue3;
             var menuController = new Controllers.MenuController();
             string spacingValue = menuController.IsDoubleDigit(value);
-            string spacingCardOne = menuController.IsDoubleDigit(faceValue1);
-            string spacingCardTwo = menuController.IsDoubleDigit(faceValue2);
-            string spacingCardThree = menuController.IsDoubleDigit(faceValue3);
 
             string faceDisplayOne = menuController.CardDisplay(face1);
             string faceDisplayTwo = menuController.CardDisplay(face2);
@@ -254,9 +252,79 @@ $@"|                                                                            
 |                                                                                                                                                              |
 |______________________________________________________________________________________________________________________________________________________________|
 ");
+            return value;
         }
 
-            public void OneCardDealer(string suit, int faceValue, string face)
+        public int FourCardPlayer(string suit1, int faceValue1, string face1,
+    string suit2, int faceValue2, string face2,
+    string suit3, int faceValue3, string face3,
+    string suit4, int faceValue4, string face4)
+        {
+            int value = faceValue1 + faceValue2 + faceValue3 + faceValue4;
+            var menuController = new Controllers.MenuController();
+            string spacingValue = menuController.IsDoubleDigit(value);
+
+            string faceDisplayOne = menuController.CardDisplay(face1);
+            string faceDisplayTwo = menuController.CardDisplay(face2);
+            string faceDisplayThree = menuController.CardDisplay(face3);
+            string faceDisplayFour = menuController.CardDisplay(face4);
+
+            Console.Write(
+$@"|                                                                                                                                                              |
+|                         _____    _____    _____    _____                                                                                                     |
+|                        |    {suit1}|  |    {suit2}|  |    {suit3}|  |    {suit4}|                      (H) Hit                                                                       |
+|                        ");
+            Console.Write("|  " + faceDisplayOne + " |");
+            Console.Write("  |  " + faceDisplayTwo + " |");
+            Console.Write("  |  " + faceDisplayThree + " |");
+            Console.WriteLine("  |  " + faceDisplayFour + " |                                                                                                    |");
+            Console.Write(
+ $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |  |     |                      (S) Stand                                                                     |
+|                        |_____|  |_____|  |_____|  |_____|                                                                                                    |
+|                         {face1} {face2} {face3} {face4}                    (D) Double                                                                    |
+|                                                                                                                                                              |
+|______________________________________________________________________________________________________________________________________________________________|
+");
+            return value;
+        }
+
+        public int FiveCardPlayer(string suit1, int faceValue1, string face1,
+string suit2, int faceValue2, string face2,
+string suit3, int faceValue3, string face3,
+string suit4, int faceValue4, string face4,
+string suit5, int faceValue5, string face5)
+        {
+            int value = faceValue1 + faceValue2 + faceValue3 + faceValue4 + faceValue5;
+            var menuController = new Controllers.MenuController();
+            string spacingValue = menuController.IsDoubleDigit(value);
+
+            string faceDisplayOne = menuController.CardDisplay(face1);
+            string faceDisplayTwo = menuController.CardDisplay(face2);
+            string faceDisplayThree = menuController.CardDisplay(face3);
+            string faceDisplayFour = menuController.CardDisplay(face4);
+            string faceDisplayFive = menuController.CardDisplay(face5);
+
+            Console.Write(
+$@"|                                                                                                                                                              |
+|                         _____    _____    _____    _____    _____                                                                                            |
+|                        |    {suit1}|  |    {suit2}|  |    {suit3}|  |    {suit4}|  |    {suit5}|             (H) Hit                                                                       |
+|                        ");
+            Console.Write("|  " + faceDisplayOne + " |");
+            Console.Write("  |  " + faceDisplayTwo + " |");
+            Console.Write("  |  " + faceDisplayThree + " |");
+            Console.Write("  |  " + faceDisplayFour + " |");
+            Console.WriteLine("  |  " + faceDisplayFive + " |                                                                                           |");
+            Console.Write(
+ $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |  |     |  |     |             (S) Stand                                                                     |
+|                        |_____|  |_____|  |_____|  |_____|  |_____|                                                                                           |
+|                         {face1} {face2} {face3} {face4} {face5}           (D) Double                                                                    |
+|                                                                                                                                                              |
+|______________________________________________________________________________________________________________________________________________________________|
+");
+            return value;
+        }
+
+        public void OneCardDealer(string suit, int faceValue, string face)
         {
             int value = faceValue;
             var menuController = new Controllers.MenuController();
@@ -385,13 +453,12 @@ $@"|     Value: {value}" + spacingValue + $@"          |     |  |<><><|         
 ");
         }
 
-        public int TwoCardDealer(string suit1, int faceValue1, string face1, string suit2, int faceValue2, string face2)
+        public int TwoCardDealer(string suit1, int faceValue1, string face1,
+            string suit2, int faceValue2, string face2)
         {
             int value = faceValue1 + faceValue2;
             var menuController = new Controllers.MenuController();
             string spacingValue = menuController.IsDoubleDigit(value);
-            string spacingCardOne = menuController.IsDoubleDigit(faceValue1);
-            string spacingCardTwo = menuController.IsDoubleDigit(faceValue2);
 
             string faceDisplayOne = menuController.CardDisplay(face1);
             string faceDisplayTwo = menuController.CardDisplay(face2);
@@ -433,14 +500,13 @@ $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |         
             return value;
         }
 
-        public int ThreeCardDealer(string suit1, int faceValue1, string face1, string suit2, int faceValue2, string face2, string suit3, int faceValue3, string face3)
+        public int ThreeCardDealer(string suit1, int faceValue1, string face1,
+            string suit2, int faceValue2, string face2,
+            string suit3, int faceValue3, string face3)
         {
             int value = faceValue1 + faceValue2 + faceValue3;
             var menuController = new Controllers.MenuController();
             string spacingValue = menuController.IsDoubleDigit(value);
-            string spacingCardOne = menuController.IsDoubleDigit(faceValue1);
-            string spacingCardTwo = menuController.IsDoubleDigit(faceValue2);
-            string spacingCardThree = menuController.IsDoubleDigit(faceValue3);
 
             string faceDisplayOne = menuController.CardDisplay(face1);
             string faceDisplayTwo = menuController.CardDisplay(face2);
@@ -484,6 +550,113 @@ $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |
             return value;
         }
 
+        public int FourCardDealer(string suit1, int faceValue1, string face1,
+            string suit2, int faceValue2, string face2,
+            string suit3, int faceValue3, string face3,
+            string suit4, int faceValue4, string face4)
+        {
+            int value = faceValue1 + faceValue2 + faceValue3 + faceValue4;
+            var menuController = new Controllers.MenuController();
+            string spacingValue = menuController.IsDoubleDigit(value);
 
+            string faceDisplayOne = menuController.CardDisplay(face1);
+            string faceDisplayTwo = menuController.CardDisplay(face2);
+            string faceDisplayThree = menuController.CardDisplay(face3);
+            string faceDisplayFour = menuController.CardDisplay(face4);
+            Console.Clear();
+            Console.Write(
+$@" ______________________________________________________________________________________________________________________________________________________________
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                         _____    _____    _____    _____                                                                                                     |
+|                        |    {suit1}|  |    {suit2}|  |    {suit3}|  |    {suit4}|                                                                                                    |
+|                        ");
+            Console.Write("|  " + faceDisplayOne + " |");
+            Console.Write("  |  " + faceDisplayTwo + " |");
+            Console.Write("  |  " + faceDisplayThree + " |");
+            Console.WriteLine("  |  " + faceDisplayFour + " |                                                                                                    |");
+            Console.Write(
+$@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |  |     |                                                                                                    |
+|                        |_____|  |_____|  |_____|  |_____|                                                                                                    |
+|                         {face1} {face2} {face3} {face4}                                                                                                  |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|______________________________________________________________________________________________________________________________________________________________|
+");
+            return value;
+        }
+
+    public int FiveCardDealer(string suit1, int faceValue1, string face1,
+        string suit2, int faceValue2, string face2,
+        string suit3, int faceValue3, string face3,
+        string suit4, int faceValue4, string face4,
+        string suit5, int faceValue5, string face5)
+        {
+            int value = faceValue1 + faceValue2 + faceValue3 + faceValue4 + faceValue5;
+            var menuController = new Controllers.MenuController();
+            string spacingValue = menuController.IsDoubleDigit(value);
+
+            string faceDisplayOne = menuController.CardDisplay(face1);
+            string faceDisplayTwo = menuController.CardDisplay(face2);
+            string faceDisplayThree = menuController.CardDisplay(face3);
+            string faceDisplayFour = menuController.CardDisplay(face4);
+            string faceDisplayFive = menuController.CardDisplay(face5);
+            Console.Clear();
+            Console.Write(
+$@" ______________________________________________________________________________________________________________________________________________________________
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                         _____    _____    _____    _____    _____                                                                                            |
+|                        |    {suit1}|  |    {suit2}|  |    {suit3}|  |    {suit4}|  |    {suit5}|                                                                                           |
+|                        ");
+            Console.Write("|  " + faceDisplayOne + " |");
+            Console.Write("  |  " + faceDisplayTwo + " |");
+            Console.Write("  |  " + faceDisplayThree + " |");
+            Console.Write("  |  " + faceDisplayFour + " |");
+            Console.WriteLine("  |  " + faceDisplayFive + " |                                                                                           |");
+            Console.Write(
+$@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |  |     |  |     |                                                                                           |
+|                        |_____|  |_____|  |_____|  |_____|  |_____|                                                                                           |
+|                         {face1} {face2} {face3} {face4} {face5}                                                                                         |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|______________________________________________________________________________________________________________________________________________________________|
+");
+            return value;
+        }
     }
 }
