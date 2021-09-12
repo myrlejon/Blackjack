@@ -18,6 +18,7 @@ namespace Blackjack.Controllers
             return spacing;
         }
 
+
         string[] faces = { "Ace     ", "Two     ", "Three   ", "Four    ", "Five    ", "Six     ",
                                "Seven   ", "Eight   ", "Nine    ", "Ten     ", "Jack    ", "Queen   ", "King    " };
 

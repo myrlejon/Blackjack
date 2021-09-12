@@ -16,7 +16,7 @@ namespace Blackjack.Models
         // Here we build our deck
         public Deck()
         {
-            string[] suits = { "♣", "♠", "♦", "♥" };
+            string[] suits = { "♣", "♠", "♦", "♥" }; 
             string[] faces = { "Ace     ", "Two     ", "Three   ", "Four    ", "Five    ", "Six     ",
                                "Seven   ", "Eight   ", "Nine    ", "Ten     ", "Jack    ", "Queen   ", "King    " };
 

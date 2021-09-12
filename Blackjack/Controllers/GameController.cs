@@ -12,11 +12,9 @@ namespace Blackjack.Controllers
         public void Game()
         {
             var menu = new Views.Menu();
-            var card = new Views.CardDisplay();
             var win = new Models.Wincondition();
 
             menu.Intro();
-
 
             Console.SetWindowSize(160, 40);
 
@@ -26,17 +24,43 @@ namespace Blackjack.Controllers
             bool round = true;
             bool inGame = true;
             int money = 1000;
+            int wins = 0;
+            int losses = 0;
+            int bet = 0;
             int roundCount = 1;
 
             while (inGame)
             {
+                menu.EmptyTable();
+                menu.Bet(money, bet);
                 var input = Console.ReadLine();
-                menu.Game();
 
-                if (input == "p" || input == "P")
+                if (input == "B" || input == "b")
+                {
+                    bool betLoop = false;
+                    while (betLoop == false)
+                    {
+                        Console.Write("Enter the amount: ");
+                        string betInput = Console.ReadLine();
+                        if (int.TryParse(betInput, out bet))
+                        {
+                            int betInputInt = Convert.ToInt32(betInput);
+                            if (betInputInt < money)
+                            {
+                                bet = betInputInt;
+                                betLoop = true;
+                            }
+                        }
+                        else
+                        {
+                            betLoop = true;
+                        }
+                    }
+                }
+
+                else if (input == "P" && bet > 0 || input == "p" && bet > 0)
                 {
                     round = true;
-
                     while (round)
                     {
                         var deck = new Models.Deck();
@@ -75,7 +99,7 @@ namespace Blackjack.Controllers
                         if (win.TwoCardBlackjack(playerCardOne, playerCardTwo) == true)
                         {
                             Console.WriteLine("Blackjack!");
-                            Console.Read();
+                            wins++;
                             round = false;
                         }
 
@@ -94,14 +118,15 @@ namespace Blackjack.Controllers
                                 menu.TwoCardPlayer(playerCardOne.suit, playerCardOne.value, playerCardOne.face,
                             playerCardTwo.suit, playerCardTwo.value, playerCardTwo.face);
                                 Console.WriteLine("Dealer got Blackjack! Busted.");
+                                round = false;
                             }
                             else
                             {
                                 menu.OneCardDealerFaceDown(dealerCardOne.suit, dealerCardOne.value, dealerCardOne.face);
                                 menu.TwoCardPlayer(playerCardOne.suit, playerCardOne.value, playerCardOne.face,
                             playerCardTwo.suit, playerCardTwo.value, playerCardTwo.face);
+                                round = true;
                             }
-
                         }
 
                         if (round)
@@ -343,7 +368,7 @@ namespace Blackjack.Controllers
                                             {
                                                 Console.WriteLine("Dealer wins!");
                                             }
-                                            
+
                                         }
                                         else if (win.CheckValueDealer(valueDealerThreeCards) == false && valueDealerThreeCards > valuePlayerThreeCards)
                                         {
@@ -366,7 +391,7 @@ namespace Blackjack.Controllers
                                 int valuePlayer = menu.TwoCardPlayer(playerCardOne.suit, playerCardOne.value, playerCardOne.face,
                             playerCardTwo.suit, playerCardTwo.value, playerCardTwo.face);
 
-                                if (valueDealerTwoCards > valuePlayer)
+                                if (valueDealerTwoCards > valuePlayer && win.CheckValueDealer(valueDealerTwoCards) == false)
                                 {
                                     Console.WriteLine("Dealer wins!");
                                 }
@@ -449,12 +474,13 @@ namespace Blackjack.Controllers
                                     Console.WriteLine("Dealer wins!");
                                 }
                             }
-                            }
-                        Console.Write($"Press any key to go to the next round...    Round: {roundCount}");
-                        Console.ReadKey();
-                            roundCount++;
                         }
+                        Console.Write($"Round: {roundCount} Wins: {wins} Losses: {losses} Money: {money}");
+                        Console.Read();
 
+                        round = false;
+                        roundCount++;
+                    }
                     }
                 }
             }

@@ -57,7 +57,8 @@ namespace Blackjack.Views
                     case "1":
                         GameIntro();
                         sound.Play();
-                        Game();
+                        EmptyTable();
+                        Bet(1000, 0);
                         menuLoop = false;
                         break;
                     case "2":
@@ -73,11 +74,13 @@ namespace Blackjack.Views
 
         }
 
+        /*
         public void Game()
         {
             EmptyTable();
             Bet();
         }
+        */
 
         public void GameIntro()
         {
@@ -162,17 +165,18 @@ namespace Blackjack.Views
 ");
         }
 
-        public void Bet()
+        public void Bet(int money, int bet)
         {
             Console.Write(
-@"|                           ||                 ||                                                                                                              |
+@$"|                           ||                 ||                                                                                                              |
+|                           ||                 ||                                                                                                              |
 |                           ||   (B) Bet       ||                                                                                                              |
 |                           ||                 ||                                                                                                              |
 |                           ||                 ||                                                                                                              |
-|                           ||   (R) Rebet     ||                (P) Play                                                                                      |
-|                           ||                 ||                                                                                                              |
+|                           ||   (P) Play      ||                                                                                                              |
 |                           ||                 ||                                                                                                              |
 |___________________________||_________________||______________________________________________________________________________________________________________|
+                                                                    Money: {money} Bet: {bet}
 ");
         }
 
