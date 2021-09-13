@@ -51,7 +51,7 @@ namespace Blackjack.Views
                 Console.Write(spacing40 + spacing10 + spacing10 + spacing10 + spacing5);
                 var input = Console.ReadLine();
                 // int inputInt = Convert.ToInt32(input);
-                
+
                 switch (input)
                 {
                     case "1":
@@ -129,7 +129,7 @@ namespace Blackjack.Views
             Console.ReadKey();
         }
 
-            public void EmptyTable()
+        public void EmptyTable()
         {
             Console.Clear();
             Console.Write(
@@ -217,10 +217,10 @@ $@"|                                                                            
 |                         _____    _____                                                                                                                       |
 |                        |    {suit1}|  |    {suit2}|                                        (H) Hit                                                                       |
 |                        ");
-           Console.Write("|  " + faceDisplayOne+ " |");
-           Console.WriteLine("  |  " + faceDisplayTwo + " |                                                                                                                      |");
-           Console.Write(
-$@"|     Value: {value}" + spacingValue + $@"          |     |  |     |                                        (S) Stand                                                                     |
+            Console.Write("|  " + faceDisplayOne + " |");
+            Console.WriteLine("  |  " + faceDisplayTwo + " |                                                                                                                      |");
+            Console.Write(
+ $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |                                        (S) Stand                                                                     |
 |                        |_____|  |_____|                                                                                                                      |
 |                         {face1} {face2}                                      (D) Double                                                                    |
 |                                                                                                                                                              |
@@ -233,13 +233,19 @@ $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |         
             string suit2, int faceValue2, string face2,
             string suit3, int faceValue3, string face3)
         {
+            var menu = new Controllers.MenuController();
+            var win = new Models.Wincondition();
             int value = faceValue1 + faceValue2 + faceValue3;
-            var menuController = new Controllers.MenuController();
-            string spacingValue = menuController.IsDoubleDigit(value);
 
-            string faceDisplayOne = menuController.CardDisplay(face1);
-            string faceDisplayTwo = menuController.CardDisplay(face2);
-            string faceDisplayThree = menuController.CardDisplay(face3);
+            string[] threeCardListPlayer = new string[] { face1, face2, face3 };
+
+            int valueAceCheck = win.ConvertAceValue(value, threeCardListPlayer);
+
+            string spacingValue = menu.IsDoubleDigit(value);
+
+            string faceDisplayOne = menu.CardDisplay(face1);
+            string faceDisplayTwo = menu.CardDisplay(face2);
+            string faceDisplayThree = menu.CardDisplay(face3);
 
             Console.Write(
 $@"|                                                                                                                                                              |
@@ -250,7 +256,7 @@ $@"|                                                                            
             Console.Write("  |  " + faceDisplayTwo + " |");
             Console.WriteLine("  |  " + faceDisplayThree + " |                                                                                                             |");
             Console.Write(
- $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |                               (S) Stand                                                                     |
+ $@"|     Value: {valueAceCheck}" + spacingValue + $@"          |     |  |     |  |     |                               (S) Stand                                                                     |
 |                        |_____|  |_____|  |_____|                                                                                                             |
 |                         {face1} {face2} {face3}                             (D) Double                                                                    |
 |                                                                                                                                                              |
@@ -264,14 +270,20 @@ $@"|                                                                            
     string suit3, int faceValue3, string face3,
     string suit4, int faceValue4, string face4)
         {
+            var menu = new Controllers.MenuController();
+            var win = new Models.Wincondition();
             int value = faceValue1 + faceValue2 + faceValue3 + faceValue4;
-            var menuController = new Controllers.MenuController();
-            string spacingValue = menuController.IsDoubleDigit(value);
 
-            string faceDisplayOne = menuController.CardDisplay(face1);
-            string faceDisplayTwo = menuController.CardDisplay(face2);
-            string faceDisplayThree = menuController.CardDisplay(face3);
-            string faceDisplayFour = menuController.CardDisplay(face4);
+            string[] fourCardListPlayer = new string[] { face1, face2, face3, face4 };
+
+            int valueAceCheck = win.ConvertAceValue(value, fourCardListPlayer);
+
+            string spacingValue = menu.IsDoubleDigit(value);
+
+            string faceDisplayOne = menu.CardDisplay(face1);
+            string faceDisplayTwo = menu.CardDisplay(face2);
+            string faceDisplayThree = menu.CardDisplay(face3);
+            string faceDisplayFour = menu.CardDisplay(face4);
 
             Console.Write(
 $@"|                                                                                                                                                              |
@@ -283,7 +295,7 @@ $@"|                                                                            
             Console.Write("  |  " + faceDisplayThree + " |");
             Console.WriteLine("  |  " + faceDisplayFour + " |                                                                                                    |");
             Console.Write(
- $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |  |     |                      (S) Stand                                                                     |
+ $@"|     Value: {valueAceCheck}" + spacingValue + $@"          |     |  |     |  |     |  |     |                      (S) Stand                                                                     |
 |                        |_____|  |_____|  |_____|  |_____|                                                                                                    |
 |                         {face1} {face2} {face3} {face4}                    (D) Double                                                                    |
 |                                                                                                                                                              |
@@ -298,15 +310,20 @@ string suit3, int faceValue3, string face3,
 string suit4, int faceValue4, string face4,
 string suit5, int faceValue5, string face5)
         {
+            var menu = new Controllers.MenuController();
+            var win = new Models.Wincondition();
             int value = faceValue1 + faceValue2 + faceValue3 + faceValue4 + faceValue5;
-            var menuController = new Controllers.MenuController();
-            string spacingValue = menuController.IsDoubleDigit(value);
 
-            string faceDisplayOne = menuController.CardDisplay(face1);
-            string faceDisplayTwo = menuController.CardDisplay(face2);
-            string faceDisplayThree = menuController.CardDisplay(face3);
-            string faceDisplayFour = menuController.CardDisplay(face4);
-            string faceDisplayFive = menuController.CardDisplay(face5);
+            string[] fiveCardListPlayer = new string[] { face1, face2, face3, face4, face5 };
+
+            int valueAceCheck = win.ConvertAceValue(value, fiveCardListPlayer);
+            string spacingValue = menu.IsDoubleDigit(value);
+
+            string faceDisplayOne = menu.CardDisplay(face1);
+            string faceDisplayTwo = menu.CardDisplay(face2);
+            string faceDisplayThree = menu.CardDisplay(face3);
+            string faceDisplayFour = menu.CardDisplay(face4);
+            string faceDisplayFive = menu.CardDisplay(face5);
 
             Console.Write(
 $@"|                                                                                                                                                              |
@@ -319,7 +336,7 @@ $@"|                                                                            
             Console.Write("  |  " + faceDisplayFour + " |");
             Console.WriteLine("  |  " + faceDisplayFive + " |                                                                                           |");
             Console.Write(
- $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |  |     |  |     |             (S) Stand                                                                     |
+ $@"|     Value: {valueAceCheck}" + spacingValue + $@"          |     |  |     |  |     |  |     |  |     |             (S) Stand                                                                     |
 |                        |_____|  |_____|  |_____|  |_____|  |_____|                                                                                           |
 |                         {face1} {face2} {face3} {face4} {face5}           (D) Double                                                                    |
 |                                                                                                                                                              |
@@ -435,7 +452,7 @@ $@" ____________________________________________________________________________
 |                         _____    _____                                                                                                                       |
 |                        |    {suit}|  |<><><|                                                                                                                      |
 |                        ");
-            Console.WriteLine("|  " + faceDisplay + " |  |><><>|   Dealer checks his card...                                                                                          |");
+            Console.WriteLine("|  " + faceDisplay + " |  |><><>|   Valke checks his card...                                                                                           |");
             Console.Write(
 $@"|     Value: {value}" + spacingValue + $@"          |     |  |<><><|                                                                                                                      |
 |                        |_____|  |_____|                                                                                                                      |
@@ -508,13 +525,19 @@ $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |         
             string suit2, int faceValue2, string face2,
             string suit3, int faceValue3, string face3)
         {
+            var menu = new Controllers.MenuController();
+            var win = new Models.Wincondition();
             int value = faceValue1 + faceValue2 + faceValue3;
-            var menuController = new Controllers.MenuController();
-            string spacingValue = menuController.IsDoubleDigit(value);
 
-            string faceDisplayOne = menuController.CardDisplay(face1);
-            string faceDisplayTwo = menuController.CardDisplay(face2);
-            string faceDisplayThree = menuController.CardDisplay(face3);
+            string[] threeCardListPlayer = new string[] { face1, face2, face3 };
+
+            int valueAceCheck = win.ConvertAceValue(value, threeCardListPlayer);
+
+            string spacingValue = menu.IsDoubleDigit(value);
+
+            string faceDisplayOne = menu.CardDisplay(face1);
+            string faceDisplayTwo = menu.CardDisplay(face2);
+            string faceDisplayThree = menu.CardDisplay(face3);
             Console.Clear();
             Console.Write(
 $@" ______________________________________________________________________________________________________________________________________________________________
@@ -533,7 +556,7 @@ $@" ____________________________________________________________________________
             Console.Write("  |  " + faceDisplayTwo + " |");
             Console.WriteLine("  |  " + faceDisplayThree + " |                                                                                                             |");
             Console.Write(
-$@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |                                                                                                             |
+$@"|     Value: {valueAceCheck}" + spacingValue + $@"          |     |  |     |  |     |                                                                                                             |
 |                        |_____|  |_____|  |_____|                                                                                                             |
 |                         {face1} {face2} {face3}                                                                                                           |
 |                                                                                                                                                              |
@@ -559,14 +582,19 @@ $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |
             string suit3, int faceValue3, string face3,
             string suit4, int faceValue4, string face4)
         {
+            var menu = new Controllers.MenuController();
+            var win = new Models.Wincondition();
             int value = faceValue1 + faceValue2 + faceValue3 + faceValue4;
-            var menuController = new Controllers.MenuController();
-            string spacingValue = menuController.IsDoubleDigit(value);
 
-            string faceDisplayOne = menuController.CardDisplay(face1);
-            string faceDisplayTwo = menuController.CardDisplay(face2);
-            string faceDisplayThree = menuController.CardDisplay(face3);
-            string faceDisplayFour = menuController.CardDisplay(face4);
+            string[] fourCardListPlayer = new string[] { face1, face2, face3, face4 };
+
+            int valueAceCheck = win.ConvertAceValue(value, fourCardListPlayer);
+            string spacingValue = menu.IsDoubleDigit(value);
+
+            string faceDisplayOne = menu.CardDisplay(face1);
+            string faceDisplayTwo = menu.CardDisplay(face2);
+            string faceDisplayThree = menu.CardDisplay(face3);
+            string faceDisplayFour = menu.CardDisplay(face4);
             Console.Clear();
             Console.Write(
 $@" ______________________________________________________________________________________________________________________________________________________________
@@ -586,7 +614,7 @@ $@" ____________________________________________________________________________
             Console.Write("  |  " + faceDisplayThree + " |");
             Console.WriteLine("  |  " + faceDisplayFour + " |                                                                                                    |");
             Console.Write(
-$@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |  |     |                                                                                                    |
+$@"|     Value: {valueAceCheck}" + spacingValue + $@"          |     |  |     |  |     |  |     |                                                                                                    |
 |                        |_____|  |_____|  |_____|  |_____|                                                                                                    |
 |                         {face1} {face2} {face3} {face4}                                                                                                  |
 |                                                                                                                                                              |
@@ -607,21 +635,26 @@ $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |
             return value;
         }
 
-    public int FiveCardDealer(string suit1, int faceValue1, string face1,
-        string suit2, int faceValue2, string face2,
-        string suit3, int faceValue3, string face3,
-        string suit4, int faceValue4, string face4,
-        string suit5, int faceValue5, string face5)
+        public int FiveCardDealer(string suit1, int faceValue1, string face1,
+            string suit2, int faceValue2, string face2,
+            string suit3, int faceValue3, string face3,
+            string suit4, int faceValue4, string face4,
+            string suit5, int faceValue5, string face5)
         {
+            var menu = new Controllers.MenuController();
+            var win = new Models.Wincondition();
             int value = faceValue1 + faceValue2 + faceValue3 + faceValue4 + faceValue5;
-            var menuController = new Controllers.MenuController();
-            string spacingValue = menuController.IsDoubleDigit(value);
 
-            string faceDisplayOne = menuController.CardDisplay(face1);
-            string faceDisplayTwo = menuController.CardDisplay(face2);
-            string faceDisplayThree = menuController.CardDisplay(face3);
-            string faceDisplayFour = menuController.CardDisplay(face4);
-            string faceDisplayFive = menuController.CardDisplay(face5);
+            string[] fiveCardListPlayer = new string[] { face1, face2, face3, face4, face5 };
+
+            int valueAceCheck = win.ConvertAceValue(value, fiveCardListPlayer);
+            string spacingValue = menu.IsDoubleDigit(value);
+
+            string faceDisplayOne = menu.CardDisplay(face1);
+            string faceDisplayTwo = menu.CardDisplay(face2);
+            string faceDisplayThree = menu.CardDisplay(face3);
+            string faceDisplayFour = menu.CardDisplay(face4);
+            string faceDisplayFive = menu.CardDisplay(face5);
             Console.Clear();
             Console.Write(
 $@" ______________________________________________________________________________________________________________________________________________________________
@@ -642,7 +675,7 @@ $@" ____________________________________________________________________________
             Console.Write("  |  " + faceDisplayFour + " |");
             Console.WriteLine("  |  " + faceDisplayFive + " |                                                                                           |");
             Console.Write(
-$@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |  |     |  |     |                                                                                           |
+$@"|     Value: {valueAceCheck}" + spacingValue + $@"          |     |  |     |  |     |  |     |  |     |                                                                                           |
 |                        |_____|  |_____|  |_____|  |_____|  |_____|                                                                                           |
 |                         {face1} {face2} {face3} {face4} {face5}                                                                                         |
 |                                                                                                                                                              |
@@ -661,6 +694,114 @@ $@"|     Value: {value}" + spacingValue + $@"          |     |  |     |  |     |
 |______________________________________________________________________________________________________________________________________________________________|
 ");
             return value;
+        }
+
+        public void WinScreen(int money, int wins, int splits, int losses, int rounds)
+        {
+            var menuController = new Controllers.MenuController();
+            string spacingWins = menuController.IsDoubleDigit(wins);
+            string spacingSplits = menuController.IsDoubleDigit(splits);
+            string spacingLosses = menuController.IsDoubleDigit(losses);
+            string spacingRounds = menuController.IsDoubleDigit(rounds);
+
+            Console.Clear();
+            Console.Write(
+@$" ______________________________________________________________________________________________________________________________________________________________ 
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                      ______________________________________________                                                          |
+|                                                    /                                                \                                                        |
+|                                                   |  ♦       You beat the game!                   ♥  |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Here is your stats...                   |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Money: {money}                            |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Wins: {wins}" + spacingWins + $@"                                |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Splits: {splits}" + spacingSplits + $@"                              |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Losses: {losses}" + spacingLosses + $@"                              |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Rounds: {rounds}" + spacingRounds + $@"                              |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Thank you for playing!                  |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |  ♠                                            ♣  |                                                       |
+|                                                    \ _______________________________________________/                                                        |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|______________________________________________________________________________________________________________________________________________________________|
+");
+            Console.ReadLine();
+            System.Environment.Exit(1);
+        }
+
+        public void LoseScreen(int money, int wins, int splits, int losses, int rounds)
+        {
+            var menuController = new Controllers.MenuController();
+            string spacingWins = menuController.IsDoubleDigit(wins);
+            string spacingSplits = menuController.IsDoubleDigit(splits);
+            string spacingLosses = menuController.IsDoubleDigit(losses);
+            string spacingRounds = menuController.IsDoubleDigit(rounds);
+
+            Console.Clear();
+            Console.Write(
+@$" ______________________________________________________________________________________________________________________________________________________________ 
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                      ______________________________________________                                                          |
+|                                                    /                                                \                                                        |
+|                                                   |  ♦       You lost the game!                   ♥  |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Here is your stats...                   |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Money: {money}                                |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Wins: {wins}" + spacingWins + $@"                                |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Splits: {splits}" + spacingSplits + $@"                              |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Losses: {losses}" + spacingLosses + $@"                              |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |          Rounds: {rounds}" + spacingRounds + $@"                              |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |                                                  |                                                       |
+|                                                   |  ♠                                            ♣  |                                                       |
+|                                                    \ _______________________________________________/                                                        |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|                                                                                                                                                              |
+|______________________________________________________________________________________________________________________________________________________________|
+");
+            Console.ReadLine();
+            System.Environment.Exit(1);
         }
     }
 }

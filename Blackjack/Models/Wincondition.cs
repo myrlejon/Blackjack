@@ -8,12 +8,6 @@ namespace Blackjack.Models
 {
     class Wincondition : Card
     {
-        // 1 = win, 2 = loss, 3 = even
-        /*
-             string[] faces = { "Ace     ", "Two     ", "Three   ", "Four    ", "Five    ", "Six     ",
-                               "Seven   ", "Eight   ", "Nine    ", "Ten     ", "Jack    ", "Queen   ", "King    " };
-            */
-
         public bool TwoCardBlackjack(Card card1, Card card2)
         {
             bool blackjack = false;
@@ -23,6 +17,18 @@ namespace Blackjack.Models
                 blackjack = true;
             }
             return blackjack;
+        }
+
+        public int ConvertAceValue(int value, string[] faces)
+        {
+            for (int i = 0; i < faces.Length; i++)
+            {
+                if (value > 21 && faces[i] == "Ace     ")
+                {
+                    value -= 10;
+                }
+            }
+            return value;
         }
 
         public bool CheckValueDealer(int value)

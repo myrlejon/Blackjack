@@ -25,12 +25,17 @@ namespace Blackjack.Controllers
             bool inGame = true;
             int money = 1000;
             int wins = 0;
+            int splits = 0;
             int losses = 0;
             int bet = 0;
             int roundCount = 1;
 
             while (inGame)
             {
+                if (money >= 10000) { menu.WinScreen(money, wins, splits, losses, roundCount); }
+
+                if (money == 0) { menu.LoseScreen(money, wins, splits, losses, roundCount); }
+
                 menu.EmptyTable();
                 menu.Bet(money, bet);
                 var input = Console.ReadLine();
@@ -45,7 +50,7 @@ namespace Blackjack.Controllers
                         if (int.TryParse(betInput, out bet))
                         {
                             int betInputInt = Convert.ToInt32(betInput);
-                            if (betInputInt < money)
+                            if (betInputInt <= money)
                             {
                                 bet = betInputInt;
                                 betLoop = true;
@@ -75,11 +80,24 @@ namespace Blackjack.Controllers
                         var playerCardThree = deck.DealCard();
                         var dealerCardThree = deck.DealCard();
 
+
                         var playerCardFour = deck.DealCard();
                         var dealerCardFour = deck.DealCard();
 
                         var playerCardFive = deck.DealCard();
                         var dealerCardFive = deck.DealCard();
+
+                        string[] threeCardListPlayer = new string[] { playerCardOne.face, playerCardTwo.face, playerCardThree.face };
+                        string[] fourCardListPlayer = new string[] { playerCardOne.face, playerCardTwo.face, playerCardThree.face,
+                                                                               playerCardFour.face };
+                        string[] fiveCardListPlayer = new string[] { playerCardOne.face, playerCardTwo.face, playerCardThree.face, 
+                                                                               playerCardFour.face, playerCardFive.face };
+
+                        string[] threeCardListDealer = new string[] { dealerCardOne.face, dealerCardTwo.face, dealerCardThree.face };
+                        string[] fourCardListDealer = new string[] { dealerCardOne.face, dealerCardTwo.face, dealerCardThree.face, 
+                                                                               dealerCardFour.face };
+                        string[] fiveCardListDealer = new string[] { dealerCardOne.face, dealerCardTwo.face, dealerCardThree.face,
+                                                                               dealerCardFour.face, dealerCardFive.face};
 
                         menu.EmptyTable();
                         menu.OneCardPlayer(playerCardOne.suit, playerCardOne.value, playerCardOne.face);
@@ -99,11 +117,12 @@ namespace Blackjack.Controllers
                         if (win.TwoCardBlackjack(playerCardOne, playerCardTwo) == true)
                         {
                             Console.WriteLine("Blackjack!");
+                            money = PlayerWinMoney(money, bet);
                             wins++;
                             round = false;
                         }
 
-                        if (dealerCardOne.value == 10 || dealerCardOne.value == 11)
+                        else if (dealerCardOne.value == 10 || dealerCardOne.value == 11)
                         {
                             menu.OneCardDealerCardCheck(dealerCardOne.suit, dealerCardOne.value, dealerCardOne.face);
                             menu.TwoCardPlayer(playerCardOne.suit, playerCardOne.value, playerCardOne.face,
@@ -118,6 +137,8 @@ namespace Blackjack.Controllers
                                 menu.TwoCardPlayer(playerCardOne.suit, playerCardOne.value, playerCardOne.face,
                             playerCardTwo.suit, playerCardTwo.value, playerCardTwo.face);
                                 Console.WriteLine("Dealer got Blackjack! Busted.");
+                                money = PlayerLoseMoney(money, bet);
+                                losses++;
                                 round = false;
                             }
                             else
@@ -129,9 +150,12 @@ namespace Blackjack.Controllers
                             }
                         }
 
+                        // If the player doesn't win/lose directly, they're still in the round and will be able to input an option
                         if (round)
                         {
                             input = Console.ReadLine();
+
+                            // TODO: Double down
 
                             if (input == "H" || input == "h")
                             {
@@ -141,15 +165,21 @@ namespace Blackjack.Controllers
                                     playerCardTwo.suit, playerCardTwo.value, playerCardTwo.face,
                                     playerCardThree.suit, playerCardThree.value, playerCardThree.face);
 
-                                if (valuePlayerThreeCards > 21)
+                                int valuePlayerThreeCardsAceCheck = win.ConvertAceValue(valuePlayerThreeCards, threeCardListPlayer);
+
+                                if (valuePlayerThreeCardsAceCheck > 21)
                                 {
                                     Console.WriteLine("Player busted!");
+                                    money = PlayerLoseMoney(money, bet);
+                                    losses++;
                                 }
-                                else if (valuePlayerThreeCards == 21)
+                                else if (valuePlayerThreeCardsAceCheck == 21)
                                 {
                                     Console.WriteLine("Player wins!");
+                                    money = PlayerWinMoney(money, bet);
+                                    wins++;
                                 }
-                                else if (valuePlayerThreeCards < 21)
+                                else if (valuePlayerThreeCardsAceCheck < 21)
                                 {
                                     input = Console.ReadLine();
 
@@ -162,15 +192,21 @@ namespace Blackjack.Controllers
                                     playerCardThree.suit, playerCardThree.value, playerCardThree.face,
                                     playerCardFour.suit, playerCardFour.value, playerCardFour.face);
 
-                                        if (valuePlayerFourCards > 21)
+                                        int valuePlayerFourCardsAceCheck = win.ConvertAceValue(valuePlayerFourCards, fourCardListPlayer);
+
+                                        if (valuePlayerFourCardsAceCheck > 21)
                                         {
                                             Console.WriteLine("Player busted!");
+                                            money = PlayerLoseMoney(money, bet);
+                                            losses++;
                                         }
-                                        else if (valuePlayerFourCards == 21)
+                                        else if (valuePlayerFourCardsAceCheck == 21)
                                         {
                                             Console.WriteLine("Player wins!");
+                                            money = PlayerWinMoney(money, bet);
+                                            wins++;
                                         }
-                                        else if (valuePlayerFourCards < 21)
+                                        else if (valuePlayerFourCardsAceCheck < 21)
                                         {
                                             input = Console.ReadLine();
 
@@ -184,17 +220,25 @@ namespace Blackjack.Controllers
                                             playerCardFour.suit, playerCardFour.value, playerCardFour.face,
                                             playerCardFive.suit, playerCardFive.value, playerCardFive.face);
 
-                                                if (valuePlayerFiveCards > 21)
+                                                int valuePlayerFiveCardsAceCheck = win.ConvertAceValue(valuePlayerFiveCards, fiveCardListPlayer);
+
+                                                if (valuePlayerFiveCardsAceCheck > 21)
                                                 {
                                                     Console.WriteLine("Player busted!");
+                                                    money = PlayerLoseMoney(money, bet);
+                                                    losses++;
                                                 }
-                                                else if (valuePlayerFiveCards == 21)
+                                                else if (valuePlayerFiveCardsAceCheck == 21)
                                                 {
                                                     Console.WriteLine("Player wins!");
+                                                    money = PlayerWinMoney(money, bet);
+                                                    wins++;
                                                 }
-                                                else if (valuePlayerFiveCards < 21)
+                                                else if (valuePlayerFiveCardsAceCheck < 21)
                                                 {
                                                     Console.WriteLine("Five card charlie! Player wins!");
+                                                    money = PlayerWinMoney(money, bet);
+                                                    wins++;
                                                 }
                                             }
 
@@ -209,19 +253,27 @@ namespace Blackjack.Controllers
                                            playerCardThree.suit, playerCardThree.value, playerCardThree.face,
                                            playerCardFour.suit, playerCardFour.value, playerCardFour.face);
 
-                                                if (valueDealerThreeCards > valuePlayerFourCards && win.CheckValueDealer(valueDealerThreeCards) == false && valueDealerThreeCards <= 21)
+                                                int valueDealerThreeCardsAceCheck = win.ConvertAceValue(valueDealerThreeCards, threeCardListDealer);
+
+                                                if (valueDealerThreeCardsAceCheck > valuePlayerFourCardsAceCheck && win.CheckValueDealer(valueDealerThreeCardsAceCheck) == false && valueDealerThreeCardsAceCheck <= 21)
                                                 {
                                                     Console.WriteLine("Dealer wins!");
+                                                    money = PlayerLoseMoney(money, bet);
+                                                    losses++;
                                                 }
-                                                else if (valueDealerThreeCards == valuePlayerFourCards)
+                                                else if (valueDealerThreeCardsAceCheck == valuePlayerFourCardsAceCheck && win.CheckValueDealer(valueDealerThreeCardsAceCheck) == false)
                                                 {
                                                     Console.WriteLine("Split!");
+                                                    money = PlayerSplitMoney(money);
+                                                    splits++;
                                                 }
-                                                else if (valueDealerThreeCards > 21)
+                                                else if (valueDealerThreeCardsAceCheck > 21)
                                                 {
                                                     Console.WriteLine("Dealer bust!");
+                                                    money = PlayerWinMoney(money, bet);
+                                                    wins++;
                                                 }
-                                                else if (win.CheckValueDealer(valueDealerThreeCards) == true)
+                                                else if (win.CheckValueDealer(valueDealerThreeCardsAceCheck) == true)
                                                 {
                                                     Thread.Sleep(500);
                                                     int valueDealerFourCards = menu.FourCardDealer(dealerCardOne.suit, dealerCardOne.value, dealerCardOne.face,
@@ -233,19 +285,27 @@ namespace Blackjack.Controllers
                                                 playerCardThree.suit, playerCardThree.value, playerCardThree.face,
                                                 playerCardFour.suit, playerCardFour.value, playerCardFour.face);
 
-                                                    if (valueDealerFourCards > valuePlayerFourCards && win.CheckValueDealer(valueDealerFourCards) == false && valueDealerFourCards <= 21)
+                                                    int valueDealerFourCardsAceCheck = win.ConvertAceValue(valueDealerFourCards, fourCardListDealer);
+
+                                                    if (valueDealerFourCardsAceCheck > valuePlayerFourCardsAceCheck && win.CheckValueDealer(valueDealerFourCardsAceCheck) == false && valueDealerFourCardsAceCheck <= 21)
                                                     {
                                                         Console.WriteLine("Dealer wins!");
+                                                        money = PlayerLoseMoney(money, bet);
+                                                        losses++;
                                                     }
-                                                    else if (valueDealerFourCards == valuePlayerFourCards)
+                                                    else if (valueDealerFourCardsAceCheck == valuePlayerFourCardsAceCheck && win.CheckValueDealer(valueDealerFourCardsAceCheck) == false)
                                                     {
                                                         Console.WriteLine("Split!");
+                                                        money = PlayerSplitMoney(money);
+                                                        splits++;
                                                     }
-                                                    else if (valueDealerFourCards > 21)
+                                                    else if (valueDealerFourCardsAceCheck > 21)
                                                     {
                                                         Console.WriteLine("Dealer bust!");
+                                                        money = PlayerWinMoney(money, bet);
+                                                        wins++;
                                                     }
-                                                    else if (win.CheckValueDealer(valueDealerFourCards) == true)
+                                                    else if (win.CheckValueDealer(valueDealerFourCardsAceCheck) == true)
                                                     {
                                                         Thread.Sleep(500);
                                                         int valueDealerFiveCards = menu.FiveCardDealer(dealerCardOne.suit, dealerCardOne.value, dealerCardOne.face,
@@ -257,35 +317,52 @@ namespace Blackjack.Controllers
                                                 playerCardTwo.suit, playerCardTwo.value, playerCardTwo.face,
                                                 playerCardThree.suit, playerCardThree.value, playerCardThree.face,
                                                 playerCardFour.suit, playerCardFour.value, playerCardFour.face);
-                                                        if (valueDealerFiveCards > valuePlayerFourCards && win.CheckValueDealer(valueDealerThreeCards) == false && valueDealerFiveCards <= 21)
+
+                                                        int valueDealerFiveCardsAceCheck = win.ConvertAceValue(valueDealerFiveCards, fiveCardListDealer);
+
+                                                        if (valueDealerFiveCardsAceCheck > valuePlayerFourCardsAceCheck && win.CheckValueDealer(valueDealerFiveCardsAceCheck) == false && valueDealerFiveCardsAceCheck <= 21)
                                                         {
                                                             Console.WriteLine("Dealer wins!");
+                                                            money = PlayerLoseMoney(money, bet);
+                                                            losses++;
                                                         }
-                                                        else if (valueDealerFiveCards == valuePlayerFourCards)
+                                                        else if (valueDealerFiveCardsAceCheck == valuePlayerFourCardsAceCheck && win.CheckValueDealer(valueDealerFiveCardsAceCheck) == false)
                                                         {
                                                             Console.WriteLine("Split!");
+                                                            money = PlayerSplitMoney(money);
+                                                            splits++;
                                                         }
-                                                        else if (valueDealerFiveCards < valuePlayerFourCards)
+                                                        else if (valueDealerFiveCardsAceCheck < valuePlayerFourCardsAceCheck)
                                                         {
                                                             Console.WriteLine("Player wins!");
+                                                            money = PlayerWinMoney(money, bet);
+                                                            wins++;
                                                         }
-                                                        else if (valueDealerFiveCards > 21)
+                                                        else if (valueDealerFiveCardsAceCheck > 21)
                                                         {
                                                             Console.WriteLine("Dealer bust!");
+                                                            money = PlayerWinMoney(money, bet);
+                                                            wins++;
                                                         }
                                                         else
                                                         {
                                                             Console.WriteLine("Dealer has pulled too many cards, player wins!");
+                                                            money = PlayerWinMoney(money, bet);
+                                                            wins++;
                                                         }
                                                     }
-                                                    else if (win.CheckValueDealer(valueDealerFourCards) == false && valueDealerFourCards > valuePlayerFourCards)
+                                                    else if (win.CheckValueDealer(valueDealerFourCardsAceCheck) == false && valueDealerFourCardsAceCheck > valuePlayerFourCardsAceCheck)
                                                     {
                                                         Console.WriteLine("Dealer wins!");
+                                                        money = PlayerLoseMoney(money, bet);
+                                                        losses++;
                                                     }
                                                 }
-                                                else if (win.CheckValueDealer(valueDealerThreeCards) == false && valueDealerThreeCards > valuePlayerFourCards)
+                                                else if (win.CheckValueDealer(valueDealerThreeCardsAceCheck) == false && valueDealerThreeCardsAceCheck > valuePlayerFourCardsAceCheck)
                                                 {
                                                     Console.WriteLine("Dealer wins!");
+                                                    money = PlayerLoseMoney(money, bet);
+                                                    losses++;
                                                 }
                                             }
                                         }
@@ -301,19 +378,33 @@ namespace Blackjack.Controllers
                                    playerCardTwo.suit, playerCardTwo.value, playerCardTwo.face,
                                    playerCardThree.suit, playerCardThree.value, playerCardThree.face);
 
-                                        if (valueDealerThreeCards > valuePlayerThreeCards && valueDealerThreeCards <= 21)
+                                        int valueDealerThreeCardsAceCheck = win.ConvertAceValue(valueDealerThreeCards, threeCardListDealer);
+
+                                        if (valueDealerThreeCardsAceCheck > valuePlayerThreeCardsAceCheck && win.CheckValueDealer(valueDealerThreeCardsAceCheck) == false && valueDealerThreeCardsAceCheck <= 21)
                                         {
                                             Console.WriteLine("Dealer wins!");
+                                            money = PlayerLoseMoney(money, bet);
+                                            losses++;
                                         }
-                                        else if (valueDealerThreeCards == valuePlayerThreeCards)
+                                        else if (valueDealerThreeCardsAceCheck == valuePlayerThreeCardsAceCheck && win.CheckValueDealer(valueDealerThreeCardsAceCheck) == false)
                                         {
                                             Console.WriteLine("Split!");
+                                            money = PlayerSplitMoney(money);
+                                            splits++;
                                         }
-                                        else if (valueDealerThreeCards > 21)
+                                        else if (valueDealerThreeCardsAceCheck > 21)
                                         {
                                             Console.WriteLine("Dealer bust!");
+                                            money = PlayerWinMoney(money, bet);
+                                            wins++;
                                         }
-                                        else if (win.CheckValueDealer(valueDealerThreeCards) == true)
+                                        else if (valueDealerThreeCardsAceCheck < valuePlayerThreeCardsAceCheck && win.CheckValueDealer(valueDealerThreeCardsAceCheck) == false)
+                                        {
+                                            Console.WriteLine("Player wins!");
+                                            money = PlayerWinMoney(money, bet);
+                                            wins++;
+                                        }
+                                        else if (win.CheckValueDealer(valueDealerThreeCardsAceCheck) == true)
                                         {
                                             Thread.Sleep(500);
                                             int valueDealerFourCards = menu.FourCardDealer(dealerCardOne.suit, dealerCardOne.value, dealerCardOne.face,
@@ -324,19 +415,33 @@ namespace Blackjack.Controllers
                                         playerCardTwo.suit, playerCardTwo.value, playerCardTwo.face,
                                         playerCardThree.suit, playerCardThree.value, playerCardThree.face);
 
-                                            if (valueDealerFourCards > valuePlayerThreeCards && win.CheckValueDealer(valueDealerFourCards) == false)
+                                            int valueDealerFourCardsAceCheck = win.ConvertAceValue(valueDealerFourCards, fourCardListDealer);
+
+                                            if (valueDealerFourCardsAceCheck > valuePlayerThreeCardsAceCheck && win.CheckValueDealer(valueDealerFourCardsAceCheck) == false && valueDealerFourCardsAceCheck <= 21)
                                             {
                                                 Console.WriteLine("Dealer wins!");
+                                                money = PlayerLoseMoney(money, bet);
+                                                losses++;
                                             }
-                                            else if (valueDealerFourCards == valuePlayerThreeCards)
+                                            else if (valueDealerFourCardsAceCheck == valuePlayerThreeCardsAceCheck && win.CheckValueDealer(valueDealerFourCardsAceCheck) == false)
                                             {
                                                 Console.WriteLine("Split!");
+                                                money = PlayerSplitMoney(money);
+                                                splits++;
                                             }
-                                            else if (valueDealerFourCards > 21)
+                                            else if (valueDealerFourCardsAceCheck > 21)
                                             {
                                                 Console.WriteLine("Dealer bust!");
+                                                money = PlayerWinMoney(money, bet);
+                                                wins++;
                                             }
-                                            else if (win.CheckValueDealer(valueDealerFourCards) == true)
+                                            else if (valueDealerFourCardsAceCheck < valuePlayerThreeCardsAceCheck && win.CheckValueDealer(valueDealerFourCardsAceCheck) == false)
+                                            {
+                                                Console.WriteLine("Player wins!");
+                                                money = PlayerWinMoney(money, bet);
+                                                wins++;
+                                            }
+                                            else if (win.CheckValueDealer(valueDealerFourCardsAceCheck) == true)
                                             {
                                                 Thread.Sleep(500);
                                                 int valueDealerFiveCards = menu.FiveCardDealer(dealerCardOne.suit, dealerCardOne.value, dealerCardOne.face,
@@ -347,36 +452,59 @@ namespace Blackjack.Controllers
                                                 menu.ThreeCardPlayer(playerCardOne.suit, playerCardOne.value, playerCardOne.face,
                                         playerCardTwo.suit, playerCardTwo.value, playerCardTwo.face,
                                         playerCardThree.suit, playerCardThree.value, playerCardThree.face);
-                                                if (valueDealerFiveCards > valuePlayerThreeCards && valueDealerThreeCards <= 21)
+
+                                                int valueDealerFiveCardsAceCheck = win.ConvertAceValue(valueDealerFiveCards, fiveCardListDealer);
+
+                                                if (valueDealerFiveCardsAceCheck > valuePlayerThreeCardsAceCheck && valueDealerFiveCards <= 21)
                                                 {
                                                     Console.WriteLine("Dealer wins!");
+                                                    money = PlayerLoseMoney(money, bet);
+                                                    losses++;
                                                 }
-                                                else if (valueDealerFiveCards == valuePlayerThreeCards)
+                                                else if (valueDealerFiveCardsAceCheck == valuePlayerThreeCardsAceCheck)
                                                 {
                                                     Console.WriteLine("Split!");
+                                                    money = PlayerSplitMoney(money);
+                                                    splits++;
                                                 }
-                                                else if (valueDealerFiveCards > 21)
+                                                else if (valueDealerFiveCardsAceCheck > 21)
                                                 {
                                                     Console.WriteLine("Dealer bust!");
+                                                    money = PlayerWinMoney(money, bet);
+                                                    wins++;
+                                                }
+                                                else if (valueDealerFiveCardsAceCheck < valuePlayerThreeCardsAceCheck)
+                                                {
+                                                    Console.WriteLine("Player wins!");
+                                                    money = PlayerWinMoney(money, bet);
+                                                    wins++;
                                                 }
                                                 else
                                                 {
                                                     Console.WriteLine("Dealer has pulled too many cards, player wins!");
+                                                    money = PlayerWinMoney(money, bet);
+                                                    wins++;
                                                 }
                                             }
-                                            else if (win.CheckValueDealer(valueDealerThreeCards) == false && valueDealerThreeCards > valuePlayerThreeCards)
+                                            else if (win.CheckValueDealer(valueDealerThreeCardsAceCheck) == false && valueDealerThreeCardsAceCheck > valuePlayerThreeCardsAceCheck)
                                             {
                                                 Console.WriteLine("Dealer wins!");
+                                                money = PlayerLoseMoney(money, bet);
+                                                losses++;
                                             }
 
                                         }
-                                        else if (win.CheckValueDealer(valueDealerThreeCards) == false && valueDealerThreeCards > valuePlayerThreeCards)
+                                        else if (win.CheckValueDealer(valueDealerThreeCardsAceCheck) == false && valueDealerThreeCardsAceCheck > valuePlayerThreeCardsAceCheck)
                                         {
                                             Console.WriteLine("Dealer wins!");
+                                            money = PlayerLoseMoney(money, bet);
+                                            losses++;
                                         }
-                                        else if (win.CheckValueDealer(valueDealerThreeCards) == false && valueDealerThreeCards < valuePlayerThreeCards)
+                                        else if (win.CheckValueDealer(valueDealerThreeCardsAceCheck) == false && valueDealerThreeCardsAceCheck < valuePlayerThreeCardsAceCheck)
                                         {
                                             Console.WriteLine("Player wins!");
+                                            money = PlayerLoseMoney(money, bet);
+                                            losses++;
                                         }
                                     }
                                 }
@@ -394,10 +522,20 @@ namespace Blackjack.Controllers
                                 if (valueDealerTwoCards > valuePlayer && win.CheckValueDealer(valueDealerTwoCards) == false)
                                 {
                                     Console.WriteLine("Dealer wins!");
+                                    money = PlayerLoseMoney(money, bet);
+                                    losses++;
                                 }
-                                else if (valueDealerTwoCards == valuePlayer)
+                                else if (valueDealerTwoCards == valuePlayer && win.CheckValueDealer(valueDealerTwoCards) == false)
                                 {
                                     Console.WriteLine("Split!");
+                                    money = PlayerSplitMoney(money);
+                                    splits++;
+                                }
+                                else if (valueDealerTwoCards < valuePlayer && win.CheckValueDealer(valueDealerTwoCards) == false)
+                                {
+                                    Console.WriteLine("Player wins!");
+                                    money = PlayerWinMoney(money, bet);
+                                    wins++;
                                 }
                                 else if (win.CheckValueDealer(valueDealerTwoCards) == true)
                                 {
@@ -407,19 +545,34 @@ namespace Blackjack.Controllers
                             dealerCardThree.suit, dealerCardThree.value, dealerCardThree.face);
                                     menu.TwoCardPlayer(playerCardOne.suit, playerCardOne.value, playerCardOne.face,
                             playerCardTwo.suit, playerCardTwo.value, playerCardTwo.face);
-                                    if (valueDealerThreeCards > valuePlayer && valueDealerThreeCards <= 21)
+
+                                    int valueDealerThreeCardsAceCheck = win.ConvertAceValue(valueDealerThreeCards, threeCardListDealer);
+
+                                    if (valueDealerThreeCardsAceCheck > valuePlayer && valueDealerThreeCardsAceCheck <= 21)
                                     {
                                         Console.WriteLine("Dealer wins!");
+                                        money = PlayerLoseMoney(money, bet);
+                                        losses++;
                                     }
-                                    else if (valueDealerThreeCards == valuePlayer)
+                                    else if (valueDealerThreeCardsAceCheck == valuePlayer && win.CheckValueDealer(valueDealerThreeCardsAceCheck) == false)
                                     {
                                         Console.WriteLine("Split!");
+                                        money = PlayerSplitMoney(money);
+                                        splits++;
                                     }
-                                    else if (valueDealerThreeCards > 21)
+                                    else if (valueDealerThreeCardsAceCheck < valuePlayer && win.CheckValueDealer(valueDealerThreeCardsAceCheck) == false)
+                                    {
+                                        Console.WriteLine("Player wins!");
+                                        money = PlayerWinMoney(money, bet);
+                                        wins++;
+                                    }
+                                    else if (valueDealerThreeCardsAceCheck > 21)
                                     {
                                         Console.WriteLine("Dealer bust!");
+                                        money = PlayerWinMoney(money, bet);
+                                        wins++;
                                     }
-                                    else if (win.CheckValueDealer(valueDealerThreeCards) == true)
+                                    else if (win.CheckValueDealer(valueDealerThreeCardsAceCheck) == true)
                                     {
                                         Thread.Sleep(500);
                                         int valueDealerFourCards = menu.FourCardDealer(dealerCardOne.suit, dealerCardOne.value, dealerCardOne.face,
@@ -428,19 +581,34 @@ namespace Blackjack.Controllers
                             dealerCardFour.suit, dealerCardFour.value, dealerCardFour.face);
                                         menu.TwoCardPlayer(playerCardOne.suit, playerCardOne.value, playerCardOne.face,
                             playerCardTwo.suit, playerCardTwo.value, playerCardTwo.face);
-                                        if (valueDealerFourCards > valuePlayer && valueDealerFourCards <= 21)
+
+                                        int valueDealerFourCardsAceCheck = win.ConvertAceValue(valueDealerFourCards, fourCardListDealer);
+
+                                        if (valueDealerFourCardsAceCheck > valuePlayer && valueDealerFourCardsAceCheck <= 21)
                                         {
                                             Console.WriteLine("Dealer wins!");
+                                            money = PlayerLoseMoney(money, bet);
+                                            losses++;
                                         }
-                                        else if (valueDealerFourCards == valuePlayer)
+                                        else if (valueDealerFourCardsAceCheck == valuePlayer && win.CheckValueDealer(valueDealerFourCardsAceCheck) == false)
                                         {
                                             Console.WriteLine("Split!");
+                                            money = PlayerSplitMoney(money);
+                                            splits++;
                                         }
-                                        else if (valueDealerFourCards > 21)
+                                        else if (valueDealerFourCardsAceCheck < valuePlayer && win.CheckValueDealer(valueDealerFourCardsAceCheck) == false)
+                                        {
+                                            Console.WriteLine("Player wins!");
+                                            money = PlayerWinMoney(money, bet);
+                                            wins++;
+                                        }
+                                        else if (valueDealerFourCardsAceCheck > 21)
                                         {
                                             Console.WriteLine("Dealer bust!");
+                                            money = PlayerWinMoney(money, bet);
+                                            wins++;
                                         }
-                                        else if (win.CheckValueDealer(valueDealerFourCards) == true)
+                                        else if (win.CheckValueDealer(valueDealerFourCardsAceCheck) == true)
                                         {
                                             Thread.Sleep(500);
                                             int valueDealerFiveCards = menu.FiveCardDealer(dealerCardOne.suit, dealerCardOne.value, dealerCardOne.face,
@@ -450,21 +618,38 @@ namespace Blackjack.Controllers
                             dealerCardFour.suit, dealerCardFour.value, dealerCardFour.face);
                                             menu.TwoCardPlayer(playerCardOne.suit, playerCardOne.value, playerCardOne.face,
                             playerCardTwo.suit, playerCardTwo.value, playerCardTwo.face);
-                                            if (valueDealerFiveCards > valuePlayer && valueDealerFiveCards <= 21)
+
+                                            int valueDealerFiveCardsAceCheck = win.ConvertAceValue(valueDealerFiveCards, fiveCardListDealer);
+
+                                            if (valueDealerFiveCardsAceCheck > valuePlayer && valueDealerFiveCardsAceCheck <= 21)
                                             {
                                                 Console.WriteLine("Dealer wins!");
+                                                money = PlayerLoseMoney(money, bet);
+                                                losses++;
                                             }
-                                            else if (valueDealerFiveCards == valuePlayer)
+                                            else if (valueDealerFiveCardsAceCheck == valuePlayer && win.CheckValueDealer(valueDealerFiveCardsAceCheck) == false)
                                             {
                                                 Console.WriteLine("Split!");
+                                                money = PlayerSplitMoney(money);
+                                                splits++;
                                             }
-                                            else if (valueDealerFiveCards > 21)
+                                            else if (valueDealerFiveCardsAceCheck < valuePlayer && win.CheckValueDealer(valueDealerFiveCardsAceCheck) == false)
+                                            {
+                                                Console.WriteLine("Player wins!");
+                                                money = PlayerWinMoney(money, bet);
+                                                wins++;
+                                            }
+                                            else if (valueDealerFiveCardsAceCheck > 21)
                                             {
                                                 Console.WriteLine("Dealer bust!");
+                                                money = PlayerWinMoney(money, bet);
+                                                wins++;
                                             }
-                                            else if (win.CheckValueDealer(valueDealerFiveCards) == true)
+                                            else if (win.CheckValueDealer(valueDealerFiveCardsAceCheck) == true)
                                             {
                                                 Console.WriteLine("Dealer has pulled too many cards, player wins!");
+                                                money = PlayerWinMoney(money, bet);
+                                                wins++;
                                             }
                                         }
                                     }
@@ -472,17 +657,38 @@ namespace Blackjack.Controllers
                                 else if (win.CheckValueDealer(valueDealerTwoCards) == false && valueDealerTwoCards > valuePlayer)
                                 {
                                     Console.WriteLine("Dealer wins!");
+                                    money = PlayerLoseMoney(money, bet);
+                                    losses++;
                                 }
                             }
                         }
+
                         Console.Write($"Round: {roundCount} Wins: {wins} Losses: {losses} Money: {money}");
                         Console.Read();
 
                         round = false;
                         roundCount++;
                     }
-                    }
                 }
             }
         }
+
+        public int PlayerWinMoney(int money, int bet)
+        {
+            int win = bet * 2;
+            money = money + win;
+            return money;
+        }
+
+        public int PlayerSplitMoney(int money)
+        {
+            return money;
+        }
+
+        public int PlayerLoseMoney(int money, int bet)
+        {
+            int loss = money - bet;
+            return loss;
+        }
     }
+}
