@@ -7,8 +7,10 @@ using System.Threading;
 
 namespace Blackjack.Controllers
 {
+    // This is the class for the game.
     public class GameController
     {
+        // This method runs the game.
         public void Game()
         {
             var menu = new Views.Menu();
@@ -17,9 +19,6 @@ namespace Blackjack.Controllers
             menu.Intro();
 
             Console.SetWindowSize(160, 40);
-
-            //var dealCard = deck.DealCard();
-            //menu.OneCardPlayer(dealCard.suit, dealCard.value, dealCard.face);
 
             bool round = true;
             bool inGame = true;
@@ -36,10 +35,11 @@ namespace Blackjack.Controllers
 
                 if (money == 0) { menu.LoseScreen(money, wins, splits, losses, roundCount); }
 
-                menu.EmptyTable();
+                menu.MenuTable();
                 menu.Bet(money, bet);
                 var input = Console.ReadLine();
 
+                // Setting the bet.
                 if (input == "B" || input == "b")
                 {
                     bool betLoop = false;
@@ -63,6 +63,7 @@ namespace Blackjack.Controllers
                     }
                 }
 
+                // Player goes into a round of Blackjack.
                 else if (input == "P" && bet > 0 || input == "p" && bet > 0)
                 {
                     round = true;
@@ -79,7 +80,6 @@ namespace Blackjack.Controllers
 
                         var playerCardThree = deck.DealCard();
                         var dealerCardThree = deck.DealCard();
-
 
                         var playerCardFour = deck.DealCard();
                         var dealerCardFour = deck.DealCard();
@@ -154,8 +154,6 @@ namespace Blackjack.Controllers
                         if (round)
                         {
                             input = Console.ReadLine();
-
-                            // TODO: Double down
 
                             if (input == "H" || input == "h")
                             {
@@ -673,6 +671,7 @@ namespace Blackjack.Controllers
             }
         }
 
+        // This method doubles the players money if they win.
         public int PlayerWinMoney(int money, int bet)
         {
             int win = bet * 2;
@@ -680,11 +679,13 @@ namespace Blackjack.Controllers
             return money;
         }
 
+        // This method splits the money.
         public int PlayerSplitMoney(int money)
         {
             return money;
         }
 
+        // This method makes the player lose money.
         public int PlayerLoseMoney(int money, int bet)
         {
             int loss = money - bet;

@@ -1,7 +1,9 @@
 ﻿namespace Blackjack.Controllers
 {
+    // This class helps the graphics for the Menu class. 
     internal class MenuController
     {
+        // This method changes the spacing if the value is double digit or not.
         public string IsDoubleDigit(int value)
         {
             string spacing = "";
@@ -12,9 +14,7 @@
             return spacing;
         }
 
-        private string[] faces = { "Ace     ", "Two     ", "Three   ", "Four    ", "Five    ", "Six     ",
-                               "Seven   ", "Eight   ", "Nine    ", "Ten     ", "Jack    ", "Queen   ", "King    " };
-
+        // This method displays the face you see on the card.
         public string CardDisplay(string face)
         {
             string value = "";

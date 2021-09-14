@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Blackjack.Models
 {
+    // This class is for the carddeck. 
     class Deck
     {
         private Card[] deck;
@@ -13,10 +14,10 @@ namespace Blackjack.Models
         private const int deckSize = 52;
         private Random rand;
 
-        // Here we build our deck
         public Deck()
         {
             string[] suits = { "♣", "♠", "♦", "♥" }; 
+            // Each face has 8 rows just so it wont mess up the graphics
             string[] faces = { "Ace     ", "Two     ", "Three   ", "Four    ", "Five    ", "Six     ",
                                "Seven   ", "Eight   ", "Nine    ", "Ten     ", "Jack    ", "Queen   ", "King    " };
 
@@ -29,12 +30,10 @@ namespace Blackjack.Models
                 var face = faces[count % 11];
 
                 deck[count] = new Card(face, suits[count / 13], card.ConvertCardToInt(face));
-
-                //deck[count] = new Card(faces[count % 11], suits[count / 13]);
-
             }
         }
-
+        
+        // This method shuffles the cards in the deck.
         public void Shuffle()
         {
             currentCard = 0;
@@ -47,6 +46,7 @@ namespace Blackjack.Models
             }
         }
 
+        // This method deals a card.
         public Card DealCard()
         {
             if (currentCard < deck.Length)
